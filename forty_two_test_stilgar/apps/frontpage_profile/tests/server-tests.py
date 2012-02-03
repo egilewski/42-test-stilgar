@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from tddspry.django import DatabaseTestCase
 from tddspry.django import HttpTestCase
 from twill.errors import TwillAssertionError
@@ -27,7 +29,7 @@ class TestFrontPageProfileHTTP(HttpTestCase):
             value = getattr(profile_data, field.column)
             if isinstance(value, datetime.date):
                 value = date_format(value)
-            self.find(value.encode('UTF-8'), flat=True, plain_text=True)
+            self.find(value, flat=True, plain_text=True)
 
     def find(self, what, flags='', flat=False, count=None, escape=False,
             plain_text=False):
@@ -54,23 +56,29 @@ class TestFrontPageProfileHTTP(HttpTestCase):
         if escape:
             what = real_escape(what)
 
-        if not flat and not count and not plain_text:
-            return self._find(what, flags)
+        if isinstance(what, str):
+            what = what.decode('UTF-8')
 
-        html = self.get_browser().get_html()
+        html = self.get_browser().get_html().decode('UTF-8')
         if plain_text:
             soup = BeautifulSoup(html)
             if not flat and not count:
                 return soup.find(text=what)
-            page_content = ''.join(soup.findAll(text=True))
-            real_count = re.search(what, page_content)
+            page_content = ''.join(soup.findAll(name='body', text=True))
+            what = re.sub('\n+', '\n', what)
+            if flat:
+                real_count = page_content.count(what)
+            else:
+                real_count = len(re.findall(what, page_content))
         else:
+            if not flat and not count:
+                return self._find(what.encode('UTF-8'), flags)
             real_count = html.count(what)
 
         if count is not None and count != real_count:
-            raise TwillAssertionError('Matched to %r %d times, not %d ' \
+            raise TwillAssertionError('Matched to %s %d times, not %d ' \
                                       'times.' % (what, real_count, count))
         elif real_count == 0:
-            raise TwillAssertionError('No match to %r' % what)
+            raise TwillAssertionError('No match to %s' % what)
 
         return True
