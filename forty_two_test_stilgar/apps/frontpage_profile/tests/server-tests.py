@@ -6,13 +6,16 @@ from twill.errors import TwillAssertionError
 # FIXME: delete prefix, fix django-nose to work without it.
 from forty_two_test_stilgar.apps.frontpage_profile.models import Profile
 from django.utils.formats import date_format
+from django.utils.html import escape as real_escape
 import datetime
 import re
 from BeautifulSoup import BeautifulSoup
 
+
 class TestFrontPageProfileDB(DatabaseTestCase):
     def test_front_page(self):
         self.assert_count(Profile, 1)
+
 
 class TestFrontPageProfileHTTP(HttpTestCase):
     xhtml = True
