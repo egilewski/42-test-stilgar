@@ -29,6 +29,8 @@ class TestFrontPageProfileHTTP(HttpTestCase):
             value = getattr(profile_data, field.column)
             if isinstance(value, datetime.date):
                 value = date_format(value)
+            value = re.sub('\n+', '\n', value)
+            value = re.sub(' +', ' ', value)
             self.find(value, flat=True, plain_text=True)
 
     def find(self, what, flags='', flat=False, count=None, escape=False,
@@ -64,8 +66,13 @@ class TestFrontPageProfileHTTP(HttpTestCase):
             soup = BeautifulSoup(html)
             if not flat and not count:
                 return soup.find(text=what)
-            page_content = ''.join(soup.findAll(name='body', text=True))
-            what = re.sub('\n+', '\n', what)
+            page_content = []
+            for element in soup.body.recursiveChildGenerator():
+                if isinstance(element, unicode):
+                    page_content.append(element)
+                elif str(element) == '<br />':
+                    page_content.append('\n')
+            page_content = ''.join(page_content)
             if flat:
                 real_count = page_content.count(what)
             else:
