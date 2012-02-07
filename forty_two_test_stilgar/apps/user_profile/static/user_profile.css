@@ -1,0 +1,32 @@
+.profile {
+    overflow: hidden;
+}
+
+    .profile > * {
+        float: left;
+        width: 40%;
+        margin-left: 5%;
+    }
+
+        .profile h5 {
+            display: inline;
+        }
+
+        .profile .bio h5,
+        .profile .other-contacts h5 {
+            display: block;
+            margin-bottom: 0;
+        }
+
+            .profile .bio h5:after,
+            .profile .other-contacts h5:after {
+                content: ":";
+            }
+
+    .profile > *:nth-child(2n+1) {
+        clear: left;
+    }
+
+        .profile p:first-of-type {
+            margin-top: 0;
+        }

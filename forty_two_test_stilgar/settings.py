@@ -101,7 +101,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'forty_two_test_stilgar.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
     os.path.join(PROJECT_PATH, 'templates'),
@@ -114,8 +114,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.media',
     'django.core.context_processors.static',
     'django.contrib.messages.context_processors.messages',
-    'forty_two_test_stilgar.context_processors.context_processors' \
-            '.site_context_processor',
+    'context_processors.custom.site',
 )
 
 INSTALLED_APPS = (
@@ -128,7 +127,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'defaultsite',
-    'forty_two_test_stilgar.apps.frontpage_profile',
+    'apps.user_profile',
 )
 
 # A sample logging configuration. The only tangible logging

@@ -1,40 +1,33 @@
-# -*- coding: utf-8 -*-
-
-from tddspry.django import DatabaseTestCase
-from tddspry.django import HttpTestCase
-from twill.errors import TwillAssertionError
-# FIXME: delete prefix, fix django-nose to work without it.
-from forty_two_test_stilgar.apps.frontpage_profile.models import Profile
-from django.utils.formats import date_format
-from django.utils.html import escape as real_escape
+"""Webpage tests for user profile app."""
 import datetime
 import re
+from tddspry.django import HttpTestCase
+from twill.errors import TwillAssertionError
 from BeautifulSoup import BeautifulSoup
+from django.utils.formats import date_format
+from django.utils.html import escape as real_escape
+from apps.user_profile.models import Profile
 
 
-class TestFrontPageProfileDB(DatabaseTestCase):
-    def test_front_page(self):
-        self.assert_count(Profile, 1)
-
-
-class TestFrontPageProfileHTTP(HttpTestCase):
+# pylint: disable=R0904
+class TestUserProfileProfilePage(HttpTestCase):
+    """Tests user profile page."""
     xhtml = True
 
-    def test_front_page(self):
+    def test_profile_page(self):
+        """Asserts data from all fields (execpt for id) in model's object to be
+        presented on page."""
         profile_data = Profile.objects.all()[0]
         self.go200('/')
         # Check all fields. If some field will be added and shouldn't be
         # outputed to the front page, it's OK for test to fail so it will be
         # obviuos that it needs to be changed.
-        for field in profile_data._meta.fields:
-            if field.column == 'id':
-                continue
-            value = getattr(profile_data, field.column)
-            if isinstance(value, datetime.date):
-                value = date_format(value)
-            value = re.sub('\n+', '\n', value)
-            value = re.sub(' +', ' ', value)
-            self.find(value, flat=True, plain_text=True)
+        for field in profile_data.fields():
+            if isinstance(field, datetime.date):
+                field = date_format(field)
+            field = re.sub('\n+', '\n', field)
+            field = re.sub(' +', ' ', field)
+            self.find(field, flat=True, plain_text=True)
 
     def find(self, what, flags='', flat=False, count=None, escape=False,
             plain_text=False):
