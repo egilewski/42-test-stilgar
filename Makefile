@@ -1,0 +1,2 @@
+test :
+	django-nosetests.py

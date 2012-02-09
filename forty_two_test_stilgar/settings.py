@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 # Django settings for forty_two_test_stilgar project.
+import os.path
+PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -31,6 +33,8 @@ TIME_ZONE = 'Europe/Kiev'
 LANGUAGE_CODE = 'uk-ua'
 
 SITE_ID = 1
+# For defaultsite app.
+SITE_NAME = u'Stilgar test for 42 Coffee Cups'
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -53,7 +57,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = os.path.join(PROJECT_PATH, 'static')
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -100,9 +104,17 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'forty_two_test_stilgar.urls'
 
 TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
+    os.path.join(PROJECT_PATH, 'templates'),
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.contrib.messages.context_processors.messages',
+    'forty_two_test_stilgar.context_processors.custom.site',
 )
 
 INSTALLED_APPS = (
@@ -112,10 +124,10 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+    'django.contrib.admin',
+    'django.contrib.admindocs',
+    'defaultsite',
+    'forty_two_test_stilgar.apps.user_profile',
 )
 
 # A sample logging configuration. The only tangible logging
