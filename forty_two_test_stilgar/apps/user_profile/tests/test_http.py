@@ -6,7 +6,7 @@ from twill.errors import TwillAssertionError
 from BeautifulSoup import BeautifulSoup
 from django.utils.formats import date_format
 from django.utils.html import escape as real_escape
-from apps.user_profile.models import Profile
+from forty_two_test_stilgar.apps.user_profile.models import Profile
 
 
 # pylint: disable=R0904

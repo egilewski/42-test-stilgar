@@ -1,7 +1,7 @@
 """Views for user profile app."""
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from apps.user_profile.models import Profile
+from forty_two_test_stilgar.apps.user_profile.models import Profile
 
 
 def user_profile(request):
