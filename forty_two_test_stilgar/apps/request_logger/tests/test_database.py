@@ -2,7 +2,7 @@
 from tddspry.django import DatabaseTestCase
 from tddspry.django.settings import SITE
 import twill
-from django.core import serializers
+import django.utils.simplejson as json
 from forty_two_test_stilgar.apps.request_logger.models import Request
 
 
@@ -14,11 +14,11 @@ class TestRequestLoggerLog(DatabaseTestCase):
         and only one Request model objects."""
         log_entries = Request.objects.count()
         for code in 200, 403, 404, 500:
-            twill.commands.go(SITE + 'request_log/testing/' + str(code))
+            twill.commands.go(SITE + 'request-log/testing/' + str(code))
             http_return = twill.commands.get_browser().get_html()
             log_entries += 1
             # Assert added records count.
             self.assert_count(Request, log_entries)
             # Assert saved data.
-            log = serializers.deserialize('json', http_return)[0]
-            self.assert_read(Request, **log.object._meta.fields)
+            log = json.loads(http_return)
+            self.assert_read(Request, **log)

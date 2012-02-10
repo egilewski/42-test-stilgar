@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% blocktrans %}Request {{ request.id }} detail{% endblocktrans %} | {{ block.super }}{% endblock %}
+
+{% block head %}
+<link type="text/css" rel="stylesheet" media="all" href="{% get_static_prefix %}request_logger.css" />
+{% endblock %}
+
+{% block content %}
+<h1>{% blocktrans %}Request {{ request.id }} detail{% endblocktrans %}</h1>
+<div class="request-log">
+    <p class="time"><h5>{% trans "Time" %}</h5> {{ request.time }}</p>
+    <p class="path"><h5>{% trans "Path" %}</h5> <a href="{{ request.url }}">{{ request.path }}</a></p>
+    <p class="host"><h5>{% trans "Host" %}</h5> {{ request.host }}</p>
+    <p class="method"><h5>{% trans "Method" %}</h5> {{ request.method }}</p>
+    <p class="referer"><h5>{% trans "Referrer" %}</h5> {{ request.referer }}</p>
+    <p class="user"><h5>{% trans "User" %}</h5> {{ request.user }}</p>
+    <p class="request"><h5>{% trans "Request" %}</h5> {{ request.request }}</p>
+</div>
+{% endblock %}

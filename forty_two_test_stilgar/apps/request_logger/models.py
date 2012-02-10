@@ -13,10 +13,10 @@ class Request(ExtendedModel):
     host = models.CharField(max_length=256)
     """Result of HttpRequest.get_host()."""
     url = models.CharField(max_length=8192)
-    """Result of HttpRequest.build_absolute_url()."""
+    """Result of HttpRequest.build_absolute_uri()."""
     method = models.CharField(max_length=128)
     """Value of HttpRequest.method (usually "GET" or "POST")."""
-    referer = models.CharField(max_length=8192)
+    referer = models.CharField(max_length=8192, null=True)
     """Value of HttpRequest.META[HTTP_REFERER]."""
     user = models.ForeignKey(User, null=True)
     """Value of HttpRequest.user.id ."""

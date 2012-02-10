@@ -99,6 +99,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'forty_two_test_stilgar.apps.request_logger.middleware.' \
+            'RequestLoggerMiddleware',
 )
 
 ROOT_URLCONF = 'forty_two_test_stilgar.urls'
@@ -128,6 +130,8 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'defaultsite',
     'forty_two_test_stilgar.apps.user_profile',
+    'forty_two_test_stilgar.apps.request_logger',
+    'forty_two_test_stilgar.apps.template_library',
 )
 
 # A sample logging configuration. The only tangible logging

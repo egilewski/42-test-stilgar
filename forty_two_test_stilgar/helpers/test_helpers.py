@@ -11,7 +11,7 @@ class HttpParsingTestCase(HttpTestCase):
     """Subclass of HttpTestCase with support for search on page, parsed as
     HTML."""
     def find(self, what, flags='', flat=False, count=None, escape=False,
-            plain_text=False):
+            plain_text=False, collapse_whitespace=True):
         """
         Twill used regexp for searching content on web-page. Use ``flat=True``
         to search content on web-page by standart Python ``what in html``
@@ -32,6 +32,13 @@ class HttpParsingTestCase(HttpTestCase):
         tags (i. e. parsed by html parser).
 
         """
+        if not isinstance(what, basestring):
+            what = unicode(what)
+
+        if collapse_whitespace:
+            what = re.sub('\n+', '\n', what)
+            what = re.sub(' +', ' ', what)
+
         if escape:
             what = real_escape(what)
 
@@ -40,7 +47,8 @@ class HttpParsingTestCase(HttpTestCase):
 
         html = self.get_browser().get_html().decode('UTF-8')
         if plain_text:
-            soup = BeautifulSoup(html)
+            soup = BeautifulSoup(html,
+                                 convertEntities=BeautifulSoup.XHTML_ENTITIES)
             if not flat and not count:
                 return soup.find(text=what)
             page_content = []

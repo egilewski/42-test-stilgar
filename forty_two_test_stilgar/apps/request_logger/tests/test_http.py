@@ -20,22 +20,18 @@ class TestUserProfileProfilePage(HttpParsingTestCase):
             for field in request.get_fields(exclude=('url', 'request')):
                 if isinstance(field, datetime.datetime):
                     field = date_format(field)
-                field = re.sub('\n+', '\n', field)
-                field = re.sub(' +', ' ', field)
                 self.find(field, flat=True, plain_text=True)
-            self.find_link(request.url)
+            self.get_browser().find_link(request.url)
 
     def test_request_page(self):
         """Assert data from all fields in each of last model's object
         to be presented on detail view page."""
         # Visit page to ensure there is at least one log record.
         self.go200('/request-log/')
-        requests = Request.objects.order_by('-id')[0]
+        request = Request.objects.order_by('-id')[0]
         self.go200('/request-log/' + str(request.id))
         for field in request.get_fields(exclude=('url',)):
             if isinstance(field, datetime.datetime):
                 field = date_format(field)
-            field = re.sub('\n+', '\n', field)
-            field = re.sub(' +', ' ', field)
             self.find(field, flat=True, plain_text=True)
-        self.find_link(request.url)
+        self.get_browser().find_link(request.url)

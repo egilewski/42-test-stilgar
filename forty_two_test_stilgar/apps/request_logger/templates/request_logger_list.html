@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load i18n %}
+{% load truncatechars %}
+
+{% block title %}{% trans "Request log" %} | {{ block.super }}{% endblock %}
+
+{% block head %}
+<link type="text/css" rel="stylesheet" media="all" href="{% get_static_prefix %}request_logger.css" />
+{% endblock %}
+
+{% block content %}
+<h1>{% trans "Request log" %}</h1>
+<table class="request-log">
+    <tbody>
+    {% for request in request_list %}
+        <tr>
+            <td><a href="{{ request.id }}">{{ request.id }}</a></td>
+            <td>{{ request.time }}</td>
+            <td><a href="{{ request.url }}">{{ request.path|truncatechars:200 }}</a></td>
+            <td>{{ request.host }}</td>
+            <td>{{ request.method }}</td>
+            <td>{{ request.referer }}</td>
+            <td>{{ request.user.name }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    <thead>
+        <tr>
+            <th class="id">{% trans "ID" %}</th>
+            <th class="time">{% trans "Time" %}</th>
+            <th class="path">{% trans "Path" %}</th>
+            <th class="host">{% trans "Host" %}</th>
+            <th class="method">{% trans "Method" %}</th>
+            <th class="referer">{% trans "Referrer" %}</th>
+            <th class="user">{% trans "User" %}</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th class="id">{% trans "ID" %}</th>
+            <th class="time">{% trans "Time" %}</th>
+            <th class="path">{% trans "Path" %}</th>
+            <th class="host">{% trans "Host" %}</th>
+            <th class="method">{% trans "Method" %}</th>
+            <th class="referer">{% trans "Referrer" %}</th>
+            <th class="user">{% trans "User" %}</th>
+        </tr>
+    </tfoot>
+</table>
+{% endblock %}
