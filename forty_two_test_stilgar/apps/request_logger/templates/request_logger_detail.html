@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+    {% blocktrans with request_record.id as request_record_id %}
+        Request {{ request_record_id }} details
+    {% endblocktrans %}
+    |
+    {{ block.super }}
+{% endblock %}
+
+{% block head %}
+<link type="text/css" rel="stylesheet" media="all" href="{% get_static_prefix %}request_logger.css" />
+{% endblock %}
+
+{% block content %}
+<h1>{% blocktrans with request_record.id as request_record_id %}Request {{ request_record_id }} details{% endblocktrans %}</h1>
+<div class="request-log-details">
+    <div class="id">
+        <h5>{% trans "ID" %}</h5>
+        <span class="value">{{ request_record.id }}</span>
+    </div>
+    <div class="time">
+        <h5>{% trans "Time" %}</h5>
+        <span class="value">{{ request_record.time }}</span>
+    </div>
+    <div class="path">
+        <h5>{% trans "Path" %}</h5>
+        <span class="value"><a href="{{ request_record.url }}">{{ request_record.path }}</a></span>
+    </div>
+    <div class="host">
+        <h5>{% trans "Host" %}</h5>
+        <span class="value">{{ request_record.host }}</span>
+    </div>
+    <div class="method">
+        <h5>{% trans "Method" %}</h5>
+        <span class="value">{{ request_record.method }}</span>
+    </div>
+    <div class="referer">
+        <h5>{% trans "Referrer" %}</h5>
+        <span class="value">{{ request_record.referer }}</span>
+    </div>
+    <div class="ip">
+        <h5>{% trans "IP" %}</h5>
+        <span class="value">{{ request_record.ip }}</span>
+    </div>
+    <div class="user">
+        <h5>{% trans "User" %}</h5>
+        <span class="value">
+            {% if user.is_staff %}<a href="/admin/auth/user/{{ request_record.user.id }}/">{% endif %}
+                {{ request_record.user }}
+            {% if user.is_staff %}</a>{% endif %}
+        </span>
+    </div>
+    <div class="request">
+        <h5>{% trans "Request" %}</h5>
+        <span class="value">{{ request_record.request }}</span>
+    </div>
+</div>
+{% endblock %}

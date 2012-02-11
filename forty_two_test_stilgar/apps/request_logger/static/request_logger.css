@@ -1,0 +1,58 @@
+.request-log-list tr.head,
+.request-log-list tr.foot {
+    background-color: #AAAAAA;
+}
+
+.request-log-list tr.even {
+    background-color: #CCCCCC;
+}
+
+.request-log-list tr.even:hover {
+    background-color: #BBBBBB;
+}
+
+.request-log-list tr.odd {
+    background-color: #EEEEEE;
+}
+
+.request-log-list tr.odd:hover {
+    background-color: #FFFFFF;
+}
+
+    .request-log-list td,
+    .request-log-list th {
+        padding: 2px 6px;
+        border: 1px solid black;
+    }
+
+    .request-log-list td.id {
+        min-width: 30px;
+        text-align: right;
+    }
+
+        .request-log-list td.id a {
+            display: block;
+            height: 100%;
+        }
+
+    .request-log-list td.method {
+        text-align: center;
+    }
+
+.request-log-details div {
+    max-width: 90%;
+}
+
+    .request-log-details div h5 {
+        display: inline;
+    }
+
+    .request-log-details div h5:after {
+        content: ":";
+    }
+
+    .request-log-details div.request .value {
+        display: block;
+        margin-left: 50px;
+        white-space: pre-wrap;
+    }
