@@ -1,7 +1,6 @@
 """Request logger views. Helper for tests simulate_http_status(). Request
 lists are in app's urlconf."""
 from django.http import HttpResponse
-from forty_two_test_stilgar.apps.request_logger.models import Request
 import django.utils.simplejson as json
 
 

@@ -1,7 +1,5 @@
 """Webpage tests for the request logger app."""
 import datetime
-import re
-from twill.errors import TwillAssertionError
 from django.utils.formats import date_format
 from forty_two_test_stilgar.apps.request_logger.models import Request
 from forty_two_test_stilgar.helpers.test_helpers import HttpParsingTestCase
@@ -20,6 +18,8 @@ class TestUserProfileProfilePage(HttpParsingTestCase):
             for field in request.get_fields(exclude=('url', 'request')):
                 if isinstance(field, datetime.datetime):
                     field = date_format(field)
+                if field is None:
+                    field = ''
                 self.find(field, flat=True, plain_text=True)
             self.get_browser().find_link(request.url)
 
@@ -33,5 +33,7 @@ class TestUserProfileProfilePage(HttpParsingTestCase):
         for field in request.get_fields(exclude=('url',)):
             if isinstance(field, datetime.datetime):
                 field = date_format(field)
+            if field is None:
+                field = ''
             self.find(field, flat=True, plain_text=True)
         self.get_browser().find_link(request.url)

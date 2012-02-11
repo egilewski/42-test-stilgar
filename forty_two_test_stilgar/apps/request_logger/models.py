@@ -17,8 +17,10 @@ class Request(ExtendedModel):
     method = models.CharField(max_length=128)
     """Value of HttpRequest.method (usually "GET" or "POST")."""
     referer = models.CharField(max_length=8192, null=True)
-    """Value of HttpRequest.META[HTTP_REFERER]."""
+    """Value of HttpRequest.META['HTTP_REFERER']."""
     user = models.ForeignKey(User, null=True)
     """Value of HttpRequest.user.id ."""
+    ip = models.IPAddressField()
+    """Value of HttpRequest.META['REMOTE_ADDR']."""
     request = models.TextField()
     """String representation of HttpRequest object."""

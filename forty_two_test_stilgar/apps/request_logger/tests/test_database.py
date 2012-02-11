@@ -9,7 +9,7 @@ from forty_two_test_stilgar.apps.request_logger.models import Request
 # pylint: disable=R0904
 class TestRequestLoggerLog(DatabaseTestCase):
     """Test Request Logger model's data."""
-    def test_request_logger_request_saved(self):
+    def test_request_saved(self):
         """Simulates request of front page and then asserts that there is one
         and only one Request model objects."""
         log_entries = Request.objects.count()

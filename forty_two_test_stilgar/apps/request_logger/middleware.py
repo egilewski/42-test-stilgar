@@ -1,24 +1,29 @@
 """Request logger middleware."""
 from forty_two_test_stilgar.apps.request_logger.models import Request
-from forty_two_test_stilgar.apps.request_logger.views import \
-        simulate_http_status
 
 
 class RequestLoggerMiddleware(object):
     """Middleware that stores all HTTP requests in DB."""
+    # pylint: disable=R0201,R0903
     def process_request(self, request):
         """Log HTTP request to database.
         Additionaly add information for testing if view
         "simulate_http_status" is about to be executed."""
+        if request.path_info == '/favicon.ico':
+            return
+
         log_data = {
                 'path': request.path_info,
                 'host': request.get_host(),
                 'url': request.build_absolute_uri(),
                 'method': request.method,
+                'ip': request.META['REMOTE_ADDR'],
                 'request': str(request),
             }
         try:
-            log_data['user'] = request.user.id
+            log_data['user'] = request.user
+            if log_data['user'].is_anonymous():
+                log_data['user'] = None
         except AttributeError:
             log_data['user'] = None
         try:

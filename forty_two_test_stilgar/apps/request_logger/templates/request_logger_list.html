@@ -12,39 +12,46 @@
 
 {% block content %}
 <h1>{% trans "Request log" %}</h1>
-<table class="request-log">
+<table class="request-log-list" cellspacing="0">
     <tbody>
-    {% for request in request_list %}
-        <tr>
-            <td><a href="{{ request.id }}">{{ request.id }}</a></td>
-            <td>{{ request.time }}</td>
-            <td><a href="{{ request.url }}">{{ request.path|truncatechars:200 }}</a></td>
-            <td>{{ request.host }}</td>
-            <td>{{ request.method }}</td>
-            <td>{{ request.referer }}</td>
-            <td>{{ request.user.name }}</td>
+    {% for request_record in request_record_list %}
+        <tr class="{{ forloop.counter|divisibleby:2|yesno:"even,odd" }}">
+            <td class="id"><a href="{{ request_record.id }}">{{ request_record.id }}</a></td>
+            <td class="time">{{ request_record.time }}</td>
+            <td class="path"><a href="{{ request_record.url }}">{{ request_record.path|truncatechars:200 }}</a></td>
+            <td class="host">{{ request_record.host }}</td>
+            <td class="method">{{ request_record.method }}</td>
+            <td class="referer">{{ request_record.referer|default_if_none:"" }}</td>
+            <td class="ip">{{ request_record.ip }}</td>
+            <td class="user">
+                {% if user.is_staff %}<a href="/admin/auth/user/{{ request_record.user.id }}/">{% endif %}
+                    {{ request_record.user|default_if_none:"" }}
+                {% if user.is_staff %}</a>{% endif %}
+            </td>
         </tr>
     {% endfor %}
     </tbody>
     <thead>
-        <tr>
+        <tr class="head">
             <th class="id">{% trans "ID" %}</th>
             <th class="time">{% trans "Time" %}</th>
             <th class="path">{% trans "Path" %}</th>
             <th class="host">{% trans "Host" %}</th>
             <th class="method">{% trans "Method" %}</th>
             <th class="referer">{% trans "Referrer" %}</th>
+            <th class="ip">{% trans "IP" %}</th>
             <th class="user">{% trans "User" %}</th>
         </tr>
     </thead>
     <tfoot>
-        <tr>
+        <tr class="foot">
             <th class="id">{% trans "ID" %}</th>
             <th class="time">{% trans "Time" %}</th>
             <th class="path">{% trans "Path" %}</th>
             <th class="host">{% trans "Host" %}</th>
             <th class="method">{% trans "Method" %}</th>
             <th class="referer">{% trans "Referrer" %}</th>
+            <th class="ip">{% trans "IP" %}</th>
             <th class="user">{% trans "User" %}</th>
         </tr>
     </tfoot>
