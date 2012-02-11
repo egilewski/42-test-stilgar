@@ -56,4 +56,27 @@
         </tr>
     </tfoot>
 </table>
+{% if is_paginated %}
+    <div class="pagination">
+        {% if page_obj.number != 1 %}
+            <a class="first" href="?page=1">First</a>
+        {% endif %}
+        {% if page_obj.has_previous %}
+            <a class="previous" href="">Prev</a>
+        {% endif %}
+        {% for page in page_obj.paginator.page_range %}
+            {% if page == page_obj.number %}
+                <span class="page page-{{ page }}">{{ page }}</span>
+            {% else %}
+                <a class="page page-{{ page }}" href="?page={{ page }}">{{ page }}</a>
+            {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+            <a class="next" href="?page={{ page_obj.next_page_number }}">Next</a>
+        {% endif %}
+        {% if page_obj.number != page_obj.num_pages %}
+            <a class="last" href="?page={{ paginator.num_pages }}">Last</a>
+        {% endif %}
+    </div>
+{% endif %}
 {% endblock %}
