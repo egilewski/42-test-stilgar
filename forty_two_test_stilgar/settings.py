@@ -132,6 +132,10 @@ INSTALLED_APPS = (
     'forty_two_test_stilgar.apps.template_library',
 )
 
+FIXTURE_DIRS = (
+    os.path.join(PROJECT_PATH, 'fixtures'),
+)
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error.

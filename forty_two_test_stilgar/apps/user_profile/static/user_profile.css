@@ -8,6 +8,22 @@
         margin-left: 5%;
     }
 
+    .profile > *:nth-child(2n+1) {
+        clear: left;
+    }
+
+        .profile * div {
+            margin: 1em 0;
+        }
+
+        .profile * div:first-of-type {
+            margin-top: 0;
+        }
+
+        .profile h2:first-child {
+            margin-top: 0;
+        }
+
         .profile h5 {
             display: inline;
         }
@@ -15,18 +31,14 @@
         .profile .bio h5,
         .profile .other-contacts h5 {
             display: block;
-            margin-bottom: 0;
+            margin: 0;
         }
 
-            .profile .bio h5:after,
-            .profile .other-contacts h5:after {
-                content: ":";
-            }
+        .profile .bio h5:after,
+        .profile .other-contacts h5:after {
+            content: ":";
+        }
 
-    .profile > *:nth-child(2n+1) {
-        clear: left;
-    }
-
-        .profile p:first-of-type {
+        .profile .bio p:first-of-type {
             margin-top: 0;
         }

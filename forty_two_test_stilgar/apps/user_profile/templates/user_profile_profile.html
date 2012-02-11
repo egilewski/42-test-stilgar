@@ -13,16 +13,16 @@
 <h1>Stilgar's profile</h1>
 <div class="profile">
     <div class="about">
-        <p><h5>{% trans "Name" %}</h5> {{ profile.first_name }}</p>
-        <p><h5>{% trans "Last name" %}</h5> {{ profile.last_name }}</p>
-        <p><h5>{% trans "Date of birth" %}</h5> {{ profile.date_of_birth }}</p>
+        <div><h5>{% trans "Name" %}</h5> {{ profile.first_name }}</div>
+        <div><h5>{% trans "Last name" %}</h5> {{ profile.last_name }}</div>
+        <div><h5>{% trans "Date of birth" %}</h5> {{ profile.date_of_birth }}</div>
         <div class="bio"><h5>{% trans "Bio" %}</h5> {{ profile.bio|linebreaks }}</div>
     </div>
     <div class="contacts">
         <h2>{% trans "Contacts" %}</h2>
-        <p><h5>{% trans "E-mail" %}</h5> {{ profile.email }}</p>
-        <p><h5>{% trans "Jabber" %}</h5> {{ profile.jabber }}</p>
-        <p><h5>{% trans "Skype" %}</h5> {{ profile.skype }}</p>
+        <div><h5>{% trans "E-mail" %}</h5> {{ profile.email }}</div>
+        <div><h5>{% trans "Jabber" %}</h5> {{ profile.jabber }}</div>
+        <div><h5>{% trans "Skype" %}</h5> {{ profile.skype }}</div>
         <div class="other-contacts"><h5>{% trans "Other contacts" %}</h5> {{ profile.contacts|linebreaksbr }}</div>
     </div>
 </div>
