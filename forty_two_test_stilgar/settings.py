@@ -115,6 +115,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.static',
     'django.contrib.messages.context_processors.messages',
     'forty_two_test_stilgar.context_processors.custom.site',
+    'forty_two_test_stilgar.context_processors.django_settings' \
+            '.django_settings',
 )
 
 INSTALLED_APPS = (
