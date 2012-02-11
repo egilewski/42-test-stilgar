@@ -1,8 +1,8 @@
 """Models for user profile app."""
 from django.db import models
+from forty_two_test_stilgar.helpers.model_helpers import ExtendedModel
 
-
-class Profile(models.Model):
+class Profile(ExtendedModel):
     """User profile model."""
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -12,8 +12,3 @@ class Profile(models.Model):
     jabber = models.EmailField()
     skype = models.CharField(max_length=50)
     contacts = models.TextField()
-
-    def fields(self):
-        """Returns list of all fields except "id"."""
-        return [getattr(self, field.name) \
-                for field in self._meta.fields if field.name != 'id']

@@ -1,4 +1,6 @@
-"""User profile app. Has view, model and initial_data fixture to populate it.
+"""
+User profile app. Has view, model and initial_data fixture to populate
+it, templates and tests.
 
 Modules:
     models
@@ -6,8 +8,5 @@ Modules:
     tests
 
 Imported modules (excluding Django):
-    datetime
-    re
     tddspry.django
-    twill.errors
-    BeautifulSoup"""
+"""
