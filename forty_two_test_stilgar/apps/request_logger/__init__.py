@@ -1,15 +1,11 @@
 """
-Request logger app. Has urlconf (with generic views), view (for testing
-purposes only), model, middleware, templates and tests.
+Tests for request logger app.
 
 Modules:
-    models
-    views
-    tests
-    middleware
-    urls
+    test_database
+    test_http
 
 Imported modules (excluding Django):
     tddspry.django
-    twill
+    forty_two_test_stilgar.helpers.test_helpers
 """
