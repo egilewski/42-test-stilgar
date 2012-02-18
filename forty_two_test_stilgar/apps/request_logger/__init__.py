@@ -7,5 +7,6 @@ Modules:
 
 Imported modules (excluding Django):
     tddspry.django
-    forty_two_test_stilgar.helpers.test_helpers
+    twill
+    forty_two_test_stilgar.helpers.model_helpers
 """
