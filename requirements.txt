@@ -3,3 +3,4 @@ pyyaml==3.10
 django-defaultsite==1.1
 tddspry==0.4-beta
 beautifulsoup==3.2.0
+pil==1.1.7

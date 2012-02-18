@@ -1,12 +1,11 @@
-"""Tests for user profile app.
+"""
+Tests for user profile app.
 
 Modules:
-test_database
-test_http
+    test_database
+    test_http
 
 Imported modules (excluding Django):
-datetime
-re
-tddspry.django
-twill.errors
-BeautifulSoup"""
+    tddspry.django
+    forty_two_test_stilgar.helpers.test_helpers
+"""
