@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% load static %}
+{% load i18n %}
+{% load simple_thumbnail %}
+
+{% block head %}
+    {{ block.super }}
+    <link type="text/css" rel="stylesheet" media="all" href="{% get_static_prefix %}user_profile.css" />
+{% endblock %}
+
+{% block content %}
+<div class="profile-edit">
+    {% if form.errors %}
+    <p class="error-note">
+        {% blocktrans count form.errors.items|length as counter %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
+    </p>
+    {% endif %}
+    <form action="" method="post" id="profile-edit-form" enctype="multipart/form-data">
+        {% for field in form.visible_fields %}
+            {% if field.html_name != 'image' and field.html_name != 'forget_unsaved_image' %}
+                <div class="field-wrapper field-{{ field.html_name }}-wrapper">
+                    <div class="field-error">{{ field.errors}}</div>
+                        <label for="id_{{ field.html_name }}">{{ field.label }}:</label>
+                        <span class="field">{{ field }}</span>
+                </div>
+            {% endif %}
+        {% endfor %}
+        <div class="field-wrapper field-{{ form.image.html_name }}-wrapper">
+            <label for="id_{{ form.image.html_name }}">{{ form.image.label }}:</label>
+            <div class="field">
+                {{ form.image }}
+                <div class="forget-unsaved-image">
+                    {{ form.forget_unsaved_image }}
+                    <label for="id_{{ form.forget_unsaved_image.html_name }}">{{ form.forget_unsaved_image.label }}</label>
+                </div>
+            </div>
+        </div>
+        {% for field in form.hidden_fields %}
+            {{ field }}
+        {% endfor %}
+        {% if persistant_image_clear %}
+            <input type="hidden" name="image-clear" value="{{ persistant_image_clear }}" />
+        {% endif %}
+        <div class="submit-block">
+            {% if unsaved_changes %}
+                <div class="unsaved-changes">You have unsaved changes.</div>
+            {% endif %}
+            <input type="submit" name="preview" value="{% trans "Preview" %}" />
+            <input type="submit" name="save" value="{% trans "Save" %}" />
+            <a href="{% url "forty_two_test_stilgar.apps.user_profile.views.user_profile" %}">Cancel</a>
+        </div>
+        {% csrf_token %}
+    </form>
+    {% if image_preview %}
+    <div class="profile-image-preview">
+        <h5>Image preview</h5>
+        <img src="{{ MEDIA_URL }}{{ image_preview|thumbnail:'600x500' }}" alt="profile image" />
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

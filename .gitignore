@@ -3,3 +3,4 @@ forty_two_test_stilgar/main_db.sqlite
 .*.un~
 *.pyc
 forty_two_test_stilgar/static
+forty_two_test_stilgar/media

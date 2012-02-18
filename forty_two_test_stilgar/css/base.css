@@ -1,0 +1,22 @@
+.clear {
+    clear: both;
+}
+
+.content {
+    overflow: hidden;
+}
+
+.nav {
+    clear: both;
+    margin: 0 20px 50px 20px;
+    padding: 10px;
+    border-top: 1px solid black;
+}
+
+    .nav > div:before {
+        content: ">";
+    }
+
+        .nav > div a {
+            margin-left: 5px;
+        }

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-
 {% load static %}
 {% load i18n %}
+{% load simple_thumbnail %}
 
 {% block title %}{% trans "Frontpage" %} | {{ block.super }}{% endblock %}
 
@@ -16,7 +16,14 @@
         <div><h5>{% trans "Name" %}</h5> {{ profile.first_name }}</div>
         <div><h5>{% trans "Last name" %}</h5> {{ profile.last_name }}</div>
         <div><h5>{% trans "Date of birth" %}</h5> {{ profile.date_of_birth }}</div>
-        <div class="bio"><h5>{% trans "Bio" %}</h5> {{ profile.bio|linebreaks }}</div>
+        {% if profile.image %}
+        <div class="photo">
+            <h5>{% trans "Photo" %}</h5>
+            <a href="{{ MEDIA_URL }}{{ profile.image }}">
+                <img src="{{ MEDIA_URL }}{{ profile.image.path|thumbnail:'500x1000' }}" alt="profile photo" />
+            </a>
+        </div>
+        {% endif %}
     </div>
     <div class="contacts">
         <h2>{% trans "Contacts" %}</h2>
@@ -24,6 +31,7 @@
         <div><h5>{% trans "Jabber" %}</h5> {{ profile.jabber }}</div>
         <div><h5>{% trans "Skype" %}</h5> {{ profile.skype }}</div>
         <div class="other-contacts"><h5>{% trans "Other contacts" %}</h5> {{ profile.contacts|linebreaksbr }}</div>
+        <div class="bio"><h5>{% trans "Bio" %}</h5> {{ profile.bio|linebreaks }}</div>
     </div>
 </div>
 {% endblock %}
