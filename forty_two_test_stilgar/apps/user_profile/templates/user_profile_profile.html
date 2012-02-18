@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% load static %}
 {% load i18n %}
 
@@ -16,6 +15,12 @@
         <div><h5>{% trans "Name" %}</h5> {{ profile.first_name }}</div>
         <div><h5>{% trans "Last name" %}</h5> {{ profile.last_name }}</div>
         <div><h5>{% trans "Date of birth" %}</h5> {{ profile.date_of_birth }}</div>
+        {% if profile.image %}
+        <div class="image">
+            <h5>{% trans "Image" %}</h5>
+            <img src="{{ MEDIA_URL }}{{ profile.image }}" alt="profile image" />
+        </div>
+        {% endif %}
         <div class="bio"><h5>{% trans "Bio" %}</h5> {{ profile.bio|linebreaks }}</div>
     </div>
     <div class="contacts">

@@ -1,3 +1,4 @@
+/* Profile page. */
 .profile {
     overflow: hidden;
 }
@@ -42,3 +43,76 @@
         .profile .bio p:first-of-type {
             margin-top: 0;
         }
+/* End of Profile page. */
+
+/* Edit profile page. */
+.profile-edit {
+}
+
+    .profile-edit .error-note,
+    .profile-edit .field-error {
+        color: red;
+    }
+
+    .profile-edit form#profile-edit-form {
+        float: left;
+        max-width: 40%;
+        margin-bottom: 50px;
+        margin-left: 5%;
+    }
+
+        .profile-edit form#profile-edit-form .field-wrapper {
+            float: right;
+            clear: right;
+            margin: 5px 0;
+        }
+
+            .profile-edit form#profile-edit-form .field-wrapper label {
+                padding-right: 10px;
+                vertical-align: top;
+            }
+
+            .profile-edit form#profile-edit-form .field-wrapper input[type="text"],
+            .profile-edit form#profile-edit-form .field-wrapper textarea {
+                width: 350px;
+            }
+
+        .profile-edit form#profile-edit-form .field-image-wrapper {
+        }
+
+            .profile-edit form#profile-edit-form .field-image-wrapper label[for="id_image"] {
+                float: left;
+            }
+
+            .profile-edit form#profile-edit-form .field-image-wrapper .field {
+                float: right;
+                width: 343px;
+                padding: 5px;
+                border: 1px solid #AAAAAA;
+            }
+
+        .profile-edit form#profile-edit-form .submit-block {
+            clear: both;
+        }
+
+            .profile-edit form#profile-edit-form .submit-block .unsaved-changes {
+                color: red;
+            }
+
+    .profile-edit .profile-image-preview {
+        float: left;
+        width: 620px;
+        margin-bottom: 50px;
+        margin-left: 5%;
+        padding: 0 0 10px 0;
+        text-align: center;
+        border: 3px solid #AAAAAA;
+    }
+
+        .profile-edit .profile-image-preview h5 {
+            margin: 0 0 10px 0;
+            padding: 10px 30px;
+            font-size: 200%;
+            border-bottom: 3px solid #AAAAAA;
+        }
+/* End of Edit profile page. */

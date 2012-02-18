@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+    {% if form.errors %}
+    <p class="errornote">
+        {% blocktrans count form.errors.items|length as counter %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
+    </p>
+    {% endif %}
+
+    <form action="" method="post" id="login-form">
+        {% csrf_token %}
+        {{ form.username.label_tag }}
+        {{ form.username }}
+        {{ form.password.label_tag }}
+        {{ form.password }}
+        <input type="submit" value="{% trans "Log in" %}" />
+        <input type="hidden" name="next" value="{{ next }}" />
+        <input type="hidden" name="this_is_the_login_form" value="1" />
+    </form>
+{% endblock %}
