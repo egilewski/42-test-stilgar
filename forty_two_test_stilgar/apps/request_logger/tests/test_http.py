@@ -15,12 +15,13 @@ class TestUserProfileProfilePage(HttpParsingTestCase):
         last 10 model's object to be presented on list view page."""
         self.go200('/request-log')
         for request in Request.objects.order_by('-id')[0:10]:
-            for field in request.get_fields(exclude=('url', 'request')):
-                if isinstance(field, datetime.datetime):
-                    field = date_format(field)
-                if field is None:
-                    field = ''
-                self.find(field, flat=True, plain_text=True)
+            fields = request.get_fields(exclude=('url', 'request'))
+            for value in fields.itervalues():
+                if isinstance(value, datetime.datetime):
+                    value = date_format(value)
+                if value is None:
+                    value = ''
+                self.find(value, flat=True, plain_text=True)
             self.get_browser().find_link(request.url)
 
     def test_request_page(self):
@@ -30,10 +31,12 @@ class TestUserProfileProfilePage(HttpParsingTestCase):
         self.go200('/request-log/')
         request = Request.objects.order_by('-id')[0]
         self.go200('/request-log/' + str(request.id))
-        for field in request.get_fields(exclude=('url',)):
-            if isinstance(field, datetime.datetime):
-                field = date_format(field)
-            if field is None:
-                field = ''
-            self.find(field, flat=True, plain_text=True)
+        print request.get_fields(exclude=('url',))
+        fields = request.get_fields(exclude=('url', 'request'))
+        for value in fields.itervalues():
+            if isinstance(value, datetime.datetime):
+                value = date_format(value)
+            if value is None:
+                value = ''
+            self.find(value, flat=True, plain_text=True)
         self.get_browser().find_link(request.url)
