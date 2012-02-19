@@ -55,7 +55,9 @@
     {% if image_preview %}
     <div class="profile-image-preview">
         <h5>Image preview</h5>
-        <img src="{{ MEDIA_URL }}{{ image_preview|thumbnail:'600x500' }}" alt="profile image" />
+        <div class="image-wrapper">
+            <img src="{{ MEDIA_URL }}{{ image_preview|thumbnail:'600x500' }}" alt="profile image" />
+        </div>
     </div>
     {% endif %}
 </div>

@@ -21,7 +21,7 @@
         <div class="photo">
             <h5>{% trans "Photo" %}</h5>
             <a href="{{ MEDIA_URL }}{{ profile.image }}">
-                <img src="{{ MEDIA_URL }}{{ profile.image.path|thumbnail:'500x1000' }}" alt="profile photo" />
+                <img src="{{ MEDIA_URL }}{{ profile.image.name|thumbnail:'500x1000' }}" alt="profile photo" />
             </a>
         </div>
         {% endif %}

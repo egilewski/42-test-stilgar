@@ -120,4 +120,12 @@
             font-size: 200%;
             border-bottom: 3px solid #AAAAAA;
         }
+
+        .profile-edit .profile-image-preview .image-wrapper {
+            padding: 0 10px;
+        }
+
+            .profile-edit .profile-image-preview img {
+                max-width: 100%;
+            }
 /* End of Edit profile page. */
