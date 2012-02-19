@@ -21,8 +21,9 @@ def temporarily_store_image(uploaded_file, tmp_dir='tmp'):
             f.write(chunk)
         f.close()
 
-    image_id = hashlib.sha256(relative_file_path + settings.SECRET_KEY) \
-            .hexdigest()
+    test = type(relative_file_path)
+    image_id = hashlib.sha256(relative_file_path.encode('utf8') + \
+                              settings.SECRET_KEY).hexdigest()
     return image_id, relative_file_path
 
 def restore_stored_image(image_path, image_dir):
@@ -30,7 +31,13 @@ def restore_stored_image(image_path, image_dir):
     old_path = os.path.join(settings.MEDIA_ROOT, image_path)
     new_path_relative = os.path.join(image_dir, filename)
     new_path = os.path.join(settings.MEDIA_ROOT, new_path_relative)
-    os.makedirs(os.path.dirname(new_path))
+    try:
+        os.makedirs(os.path.dirname(new_path))
+    except OSError as exc:
+        if exc.errno == errno.EEXIST:
+            pass
+        else:
+            raise
     shutil.move(old_path, new_path)
     return new_path_relative
 

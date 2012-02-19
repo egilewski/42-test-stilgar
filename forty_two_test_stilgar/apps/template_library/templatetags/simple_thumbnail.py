@@ -28,8 +28,16 @@ def thumbnail(filename, size='104x104'):
         if not os.path.exists(miniature_filename):
             image = Image.open(absolute_filename)
             width, height = image.size
+            # Already fits.
             if x > width and y > height:
                 return filename
+            # PIL can't write animated GIF.
+            try:
+                if image.format == 'GIF':
+                    image.seek(1)
+                    return filename
+            except:
+                pass
             image.thumbnail([x, y], Image.ANTIALIAS)
             try:
                 image.save(miniature_filename, image.format, quality=90,
