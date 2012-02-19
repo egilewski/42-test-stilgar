@@ -28,9 +28,11 @@ def temporarily_store_image(uploaded_file, tmp_dir='tmp'):
 def restore_stored_image(image_path, image_dir):
     filename = os.path.basename(image_path)
     old_path = os.path.join(settings.MEDIA_ROOT, image_path)
-    new_path = os.path.join(image_dir, filename)
-    shutil.move(old_path, os.path.join(settings.MEDIA_ROOT, new_path))
-    return new_path
+    new_path_relative = os.path.join(image_dir, filename)
+    new_path = os.path.join(settings.MEDIA_ROOT, new_path_relative)
+    os.makedirs(os.path.dirname(new_path))
+    shutil.move(old_path, new_path)
+    return new_path_relative
 
 def drop_stored_image(request):
     try:
