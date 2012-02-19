@@ -15,11 +15,21 @@
     </div>
 
     {% block footer %}
-    <!--<div class="clear"></div>-->
     <div class="nav">
-        <div class="frontpage"><a href="{% url "frontpage" %}">Frontpage</a></div>
-        <div class="request-log"><a href="{% url "request_log_list" %}">Request log</a></div>
-        {% if user.is_staff %}<div class="edit-user-profile"><a href="{% url "forty_two_test_stilgar.apps.user_profile.views.edit_user_profile" %}">Edit user profile</a></div>{% endif %}
+        <div class="menu-link frontpage"><a href="{% url "frontpage" %}">Frontpage</a></div>
+        <div class="menu-link request-log"><a href="{% url "request_log_list" %}">Request log</a></div>
+        {% if user.is_staff %}
+            <div class="staff-links">
+                <div class="menu-link edit-user-profile"><a href="{% url "forty_two_test_stilgar.apps.user_profile.views.edit_user_profile" %}">Edit user profile</a></div>
+            </div>
+        {% endif %}
+        <div class="account-links">
+        {% if user.is_authenticated %}
+            <div class="menu-link logout"><a href="{% url "logout" %}">Log out</a></div>
+        {% else %}
+            <div class="menu-link login"><a href="{% url "login" %}">Log in</a></div>
+        {% endif %}
+        </div>
     </div>
     {% endblock %}
 </body>

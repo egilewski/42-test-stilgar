@@ -1,7 +1,3 @@
-.clear {
-    clear: both;
-}
-
 .content {
     overflow: hidden;
 }
@@ -13,10 +9,15 @@
     border-top: 1px solid black;
 }
 
-    .nav > div:before {
+    .nav .account-links,
+    .nav .staff-links {
+        margin: 10px 0;
+    }
+
+    .nav .menu-link:before {
         content: ">";
     }
 
-        .nav > div a {
+        .nav .menu-link a {
             margin-left: 5px;
         }
