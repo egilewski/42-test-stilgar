@@ -1,6 +1,7 @@
 """Forms for user profile app."""
 from django import forms
 from forty_two_test_stilgar.apps.user_profile.models import Profile
+from forty_two_test_stilgar.apps.datepicker.widgets import DatePicker
 
 
 class ProfileEditForm(forms.ModelForm):
@@ -8,6 +9,9 @@ class ProfileEditForm(forms.ModelForm):
     # pylint: disable=W0232,R0903,C0111
     class Meta:
         model = Profile
+        widgets = {
+            'date_of_birth': DatePicker(),
+        }
 
     def save(self, commit=True, stored_image=None):
         """Override for saving stored image."""
