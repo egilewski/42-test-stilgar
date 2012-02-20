@@ -30,7 +30,7 @@ TIME_ZONE = 'Europe/Kiev'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'uk-ua'
+LANGUAGE_CODE = 'uk'
 
 SITE_ID = 1
 # For defaultsite app.
@@ -136,6 +136,7 @@ INSTALLED_APPS = (
     'forty_two_test_stilgar.apps.user_profile',
     'forty_two_test_stilgar.apps.request_logger',
     'forty_two_test_stilgar.apps.template_library',
+    'forty_two_test_stilgar.apps.datepicker',
 )
 
 FIXTURE_DIRS = (
