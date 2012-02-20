@@ -3,9 +3,11 @@
 {% load static %}
 {% load i18n %}
 {% load simple_thumbnail %}
+{% load mathtag %}
 
 {% block head %}
     {{ block.super }}
+    {{ form.media }}
     <link type="text/css" rel="stylesheet" media="all" href="{% get_static_prefix %}user_profile.css" />
 {% endblock %}
 
@@ -17,24 +19,19 @@
     </p>
     {% endif %}
     <form action="" method="post" id="profile-edit-form" enctype="multipart/form-data">
+        <div class="field-column field-column-1">
+        {% math form.visible_fields|length 2 2 "($1-$2) / $3" as half_fields_count %}
         {% for field in form.visible_fields %}
-            {% if field.html_name != 'image' and field.html_name != 'forget_unsaved_image' %}
+            {% if forloop.counter0 == half_fields_count %}
+                </div>
+                <div class="field-column field-column-2">
+            {% endif %}
                 <div class="field-wrapper field-{{ field.html_name }}-wrapper">
                     <div class="field-error">{{ field.errors}}</div>
-                        <label for="id_{{ field.html_name }}">{{ field.label }}:</label>
-                        <span class="field">{{ field }}</span>
+                    <label for="id_{{ field.html_name }}">{{ field.label }}:</label>
+                    <span class="field">{{ field }}</span>
                 </div>
-            {% endif %}
         {% endfor %}
-        <div class="field-wrapper field-{{ form.image.html_name }}-wrapper">
-            <label for="id_{{ form.image.html_name }}">{{ form.image.label }}:</label>
-            <div class="field">
-                {{ form.image }}
-                <div class="forget-unsaved-image">
-                    {{ form.forget_unsaved_image }}
-                    <label for="id_{{ form.forget_unsaved_image.html_name }}">{{ form.forget_unsaved_image.label }}</label>
-                </div>
-            </div>
         </div>
         {% for field in form.hidden_fields %}
             {{ field }}

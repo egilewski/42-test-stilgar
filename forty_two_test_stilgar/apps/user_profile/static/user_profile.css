@@ -61,10 +61,20 @@
 
     .profile-edit form#profile-edit-form {
         float: left;
-        max-width: 40%;
+        width: 940px;
         margin-bottom: 50px;
-        margin-left: 5%;
+        margin-left: 20px;
     }
+
+        .profile-edit form#profile-edit-form .field-column {
+            float: left;
+            width: 450px;
+            margin-bottom: 20px;
+        }
+
+        .profile-edit form#profile-edit-form .field-column-2 {
+            margin-left: 20px;
+        }
 
         .profile-edit form#profile-edit-form .field-wrapper {
             float: right;
@@ -80,6 +90,14 @@
             .profile-edit form#profile-edit-form .field-wrapper input[type="text"],
             .profile-edit form#profile-edit-form .field-wrapper textarea {
                 width: 350px;
+            }
+
+            .profile-edit form#profile-edit-form .field-wrapper #id_bio {
+                height: 300px;
+            }
+
+            .profile-edit form#profile-edit-form .field-wrapper #id_contacts {
+                height: 200px;
             }
 
         .profile-edit form#profile-edit-form .field-image-wrapper {
@@ -108,7 +126,7 @@
         float: left;
         width: 620px;
         margin-bottom: 50px;
-        margin-left: 5%;
+        margin-left: 30px;
         padding: 0 0 10px 0;
         text-align: center;
         border: 3px solid #AAAAAA;
