@@ -20,6 +20,7 @@ class DatePicker(forms.DateInput):
             'all': (
                 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/' \
                         'smoothness/jquery-ui.css',
+                'datepicker/datepicker.css',
             ),
         }
 
