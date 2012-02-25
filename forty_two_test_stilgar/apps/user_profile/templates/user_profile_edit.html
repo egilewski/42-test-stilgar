@@ -2,32 +2,32 @@
 {% load url from future %}
 {% load static %}
 {% load i18n %}
-{% load simple_thumbnail %}
 {% load mathtag %}
 
 {% block head %}
     {{ block.super }}
     {{ form.media }}
-    <link type="text/css" rel="stylesheet" media="all" href="{% get_static_prefix %}user_profile.css" />
+    <link type="text/css" rel="stylesheet" media="all" href="{% get_static_prefix %}user_profile/user_profile.css" />
 {% endblock %}
 
 {% block content %}
 <div class="profile-edit">
-    {% if form.errors %}
-    <p class="error-note">
-        {% blocktrans count form.errors.items|length as counter %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
+    <p
+        {% if not error_note %}style="display: none;"{% endif %}
+        id="error-note"
+    >
+        {{ error_note }}
     </p>
-    {% endif %}
     <form action="" method="post" id="profile-edit-form" enctype="multipart/form-data">
-        <div class="field-column field-column-1">
+        <div class="field-column" id="field-column-1">
         {% math form.visible_fields|length 2 2 "($1-$2) / $3" as half_fields_count %}
         {% for field in form.visible_fields %}
             {% if forloop.counter0 == half_fields_count %}
                 </div>
-                <div class="field-column field-column-2">
+                <div class="field-column" id="field-column-2">
             {% endif %}
-                <div class="field-wrapper field-{{ field.html_name }}-wrapper">
-                    <div class="field-error">{{ field.errors}}</div>
+                <div class="field-wrapper" id="field-{{ field.html_name }}-wrapper">
+                    <div class="field-error">{{ field.errors }}</div>
                     <label for="id_{{ field.html_name }}">{{ field.label }}:</label>
                     <span class="field">{{ field }}</span>
                 </div>
@@ -36,26 +36,21 @@
         {% for field in form.hidden_fields %}
             {{ field }}
         {% endfor %}
-        {% if persistant_image_clear %}
-            <input type="hidden" name="image-clear" value="{{ persistant_image_clear }}" />
+        {% if persistent_image_clear %}
+            <input type="hidden" name="image-clear" value="{{ persistent_image_clear }}" />
         {% endif %}
         <div class="submit-block">
-            {% if unsaved_changes %}
-                <div class="unsaved-changes">You have unsaved changes.</div>
-            {% endif %}
             <input type="submit" name="preview" value="{% trans "Preview" %}" />
             <input type="submit" name="save" value="{% trans "Save" %}" />
             <a href="{% url "forty_two_test_stilgar.apps.user_profile.views.user_profile" %}">Cancel</a>
         </div>
         {% csrf_token %}
     </form>
-    {% if image_preview %}
-    <div class="profile-image-preview">
+    <div id="image-preview"{% if not image_preview %} style="display: none;"{% endif %}>
         <h5>Image preview</h5>
         <div class="image-wrapper">
-            <img src="{{ MEDIA_URL }}{{ image_preview|thumbnail:'600x500' }}" alt="profile image" />
+            <img src="{% if image_preview %}{{ MEDIA_URL }}{{ image_preview }}{% endif %}" alt="profile image" />
         </div>
     </div>
-    {% endif %}
 </div>
 {% endblock %}

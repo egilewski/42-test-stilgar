@@ -1,12 +1,18 @@
 """Views for user profile app. Show data and edit data for staff."""
 import os.path
+from django.utils import simplejson
+from django.http import HttpResponse
 from django.views.generic.simple import direct_to_template
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.utils.encoding import force_unicode
+from django.utils.translation import ungettext
 from forty_two_test_stilgar import settings
 from forty_two_test_stilgar.helpers.image_preview import \
         temporarily_store_image, restore_stored_image, drop_stored_image
 from forty_two_test_stilgar.apps.user_profile.models import Profile
 from forty_two_test_stilgar.apps.user_profile.forms import ProfileEditForm
+from forty_two_test_stilgar.apps.template_library.templatetags import \
+        simple_thumbnail
 
 
 def user_profile(request):
@@ -22,17 +28,20 @@ def user_profile(request):
 @user_passes_test(lambda u: u.is_superuser)
 def edit_user_profile(request):
     """User profile edit page."""
+    #TODO: make this view short.
     extra_context = {}
     profile = Profile.objects.all()[0]
     if request.method == 'POST':
-        image_preview_id = ''
+        # Handle temporary storing image.
         stored_image = None
-        # Handle temporary soring image.
-        if ('image' in request.FILES) or \
-                (('forget_unsaved_image' in request.POST) and \
-                request.POST['forget_unsaved_image']):
-            drop_stored_image(request)
+        if 'forget_unsaved_image' in request.POST:
+            forget_unsaved_image = request.POST['forget_unsaved_image']
             request.POST['forget_unsaved_image'] = False
+        else:
+            forget_unsaved_image = False
+        if ('image' in request.FILES) or forget_unsaved_image:
+            drop_stored_image(request)
+        image_preview_id = ''
         if 'image' in request.FILES:
             if 'preview' in request.POST:
                 image_id, image_path = temporarily_store_image(
@@ -42,28 +51,27 @@ def edit_user_profile(request):
                 image_preview_id = image_id
                 request.session[image_preview_id] = \
                         extra_context['image_preview']
-                extra_context['unsaved_changes'] = True
         else:
-            try:
+            if request.POST['image_preview_id'] in request.session:
                 image_path = request.session[request.POST['image_preview_id']]
-                extra_context['image_preview'] = image_path
                 image_preview_id = request.POST['image_preview_id']
-                stored_image = os.path.join(settings.MEDIA_ROOT,
-                                            extra_context['image_preview'])
-            except KeyError:
-                pass
+                stored_image = os.path.join(settings.MEDIA_ROOT, image_path)
+                if 'preview' in request.POST:
+                    extra_context['image_preview'] = image_path
         request.POST['image_preview_id'] = image_preview_id
+
+        # Thumbnail.
+        if 'image_preview' in extra_context:
+            extra_context['image_preview'] = simple_thumbnail.thumbnail(
+                    extra_context['image_preview'], '600x500')
 
         # Handle action: preview or save.
         if 'preview' in request.POST:
             form = ProfileEditForm(request.POST, instance=profile)
-            if form.has_changed():
-                extra_context['unsaved_changes'] = True
             if ('image-clear' in request.POST) and \
                     request.POST['image-clear'] == 'on':
-                extra_context['persistant_image_clear'] = \
+                extra_context['persistent_image_clear'] = \
                         request.POST['image-clear']
-            extra_context['debug'] = request.POST
         elif 'save' in request.POST:
             form = ProfileEditForm(request.POST, request.FILES,
                                    instance=profile)
@@ -75,12 +83,42 @@ def edit_user_profile(request):
                 form.save(stored_image=stored_image)
                 # FIXME: rain dance.
                 # Recreating form to update "Current value" of ImageField.
+                profile = Profile.objects.get(id=profile.id)
                 form = ProfileEditForm(request.POST, instance=profile)
                 drop_stored_image(request)
                 extra_context = {}
     else:
         form = ProfileEditForm(instance=profile)
-    extra_context['form'] = form
-    return direct_to_template(request,
-                             template='user_profile_edit.html',
-                             extra_context=extra_context)
+
+    if form.is_bound and not form.is_valid():
+        # Show errors.
+        extra_context['error_note'] = ungettext(
+                'Please correct the error below.',
+                'Please correct the errors below.',
+                len(form.errors))
+        extra_context['form_errors'] = form.errors
+
+    if request.is_ajax():
+        if 'image_preview_id' in request.POST:
+            extra_context['image_preview_id'] = \
+                    request.POST['image_preview_id']
+        if 'image_preview' in extra_context:
+            extra_context['image_preview'] = \
+                    settings.MEDIA_URL + extra_context['image_preview']
+        if forget_unsaved_image and ('image_preview' in extra_context):
+            del extra_context['image_preview']
+        # "Current" in ClearableFileInput.
+        if (profile.image):
+            extra_context['current_image_url'] = profile.image.url
+            extra_context['current_image_name'] = force_unicode(profile.image)
+        else:
+            extra_context['current_image_url'] = ''
+            extra_context['current_image_name'] = ''
+
+        return HttpResponse(simplejson.dumps(extra_context),
+                            mimetype="application/json")
+    else:
+        extra_context['form'] = form
+        return direct_to_template(request,
+                                  template='user_profile_edit.html',
+                                  extra_context=extra_context)
