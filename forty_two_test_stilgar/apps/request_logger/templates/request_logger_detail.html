@@ -2,6 +2,7 @@
 
 {% load static %}
 {% load i18n %}
+{% load admin_change_link %}
 
 {% block title %}
     {% blocktrans with request_record.id as request_record_id %}
@@ -20,7 +21,7 @@
 <div class="request-log-details">
     <div class="id">
         <h5>{% trans "ID" %}</h5>
-        <span class="value">{{ request_record.id }}</span>
+        <span class="value">{% if user.is_staff %}<a href="{% admin_change_link request_record %}">{% endif %}{{ request_record.id }}{% if user.is_staff %}</a>{% endif %}</span>
     </div>
     <div class="time">
         <h5>{% trans "Time" %}</h5>
