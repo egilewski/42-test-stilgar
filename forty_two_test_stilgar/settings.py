@@ -146,6 +146,7 @@ INSTALLED_APPS = (
     'forty_two_test_stilgar.apps.datepicker',
     'forty_two_test_stilgar.apps.progress_file_input',
     'forty_two_test_stilgar.apps.list_models',
+    'forty_two_test_stilgar.apps.model_log',
 )
 
 FIXTURE_DIRS = (
