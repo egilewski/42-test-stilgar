@@ -19,6 +19,13 @@
         {{ error_note }}
     </p>
     <form action="" method="post" id="profile-edit-form" enctype="multipart/form-data">
+        <div class="reverse-field-order">
+            {% if not reverse_field_order %}
+                <a href="?reverse_field_order=1">Reverse field order</a>
+            {% else %}
+                <a href="?reverse_field_order=0">Unreverse field order</a>
+            {% endif %}
+        </div>
         <div class="field-column" id="field-column-1">
         {% math form.visible_fields|length 2 2 "($1-$2) / $3" as half_fields_count %}
         {% for field in form.visible_fields %}

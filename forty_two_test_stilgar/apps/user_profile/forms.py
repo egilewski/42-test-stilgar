@@ -23,6 +23,23 @@ class ProfileEditForm(forms.ModelForm):
             'user_profile/edit-ajax.js',
         )
 
+    def __init__(self, *args, **kwargs):
+        """Conditionally reversing order of fields."""
+        reverse_field_order = kwargs.get('reverse_field_order', False)
+        try:
+            del kwargs['reverse_field_order']
+        except KeyError:
+            pass
+        super(ProfileEditForm, self).__init__(*args, **kwargs)
+
+        if reverse_field_order:
+            #FIXME: get DRY.
+            first_column = self.fields.keyOrder[:4]
+            second_column = self.fields.keyOrder[4:]
+            first_column.reverse()
+            second_column.reverse()
+            self.fields.keyOrder = first_column + second_column
+
     def save(self, commit=True, stored_image=None):
         """Override for saving stored image."""
         profile = super(ProfileEditForm, self).save(commit=False)

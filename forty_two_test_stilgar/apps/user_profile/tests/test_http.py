@@ -2,6 +2,7 @@
 import datetime
 import os.path
 from django.utils.formats import date_format
+from BeautifulSoup import BeautifulSoup
 from forty_two_test_stilgar.apps.user_profile.models import Profile
 from forty_two_test_stilgar.helpers.test_helpers import HttpParsingTestCase
 
@@ -53,6 +54,37 @@ class TestUserProfileProfilePage(HttpParsingTestCase):
         self.go('/edit-user-profile/')
         self.find('<input type="hidden" name="this_is_the_login_form" ' \
                 'value="1" />')
+
+    def test_field_reversing(self):
+        """Test if reversed order in columns are actually exact reversed
+        comparing to normal."""
+        self.login('admin', 'admin')
+
+        # Get normal order.
+        self.go('/edit-user-profile/')
+        soup = BeautifulSoup(self.get_browser().get_html().decode('UTF-8'))
+        first_column = soup.find(attrs={'id': 'field-column-1'})
+        first_column_normal_order = [field['id'] for field in \
+                first_column.findAll(attrs='field-wrapper')]
+        second_column = soup.find(attrs={'id': 'field-column-2'})
+        second_column_normal_order = [field['id'] for field in \
+                second_column.findAll(attrs='field-wrapper')]
+
+        # Get reversed order.
+        self.go('/edit-user-profile/?reverse_field_order=1')
+        soup = BeautifulSoup(self.get_browser().get_html().decode('UTF-8'))
+        first_column = soup.find(attrs={'id': 'field-column-1'})
+        first_column_reversed_order = [field['id'] for field in \
+                first_column.findAll(attrs='field-wrapper')]
+        second_column = soup.find(attrs={'id': 'field-column-2'})
+        second_column_reversed_order = [field['id'] for field in \
+                second_column.findAll(attrs='field-wrapper')]
+
+        # Compare orders.
+        self.assert_equal(first_column_normal_order,
+                     list(reversed(first_column_reversed_order)))
+        self.assert_equal(second_column_normal_order,
+                     list(reversed(second_column_reversed_order)))
 
     def edit_profile(self):
         """Perform profile editing and check for success."""
