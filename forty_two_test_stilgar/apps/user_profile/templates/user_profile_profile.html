@@ -2,6 +2,8 @@
 {% load static %}
 {% load i18n %}
 {% load simple_thumbnail %}
+{% load admin_change_link %}
+{% load url from future %}
 
 {% block title %}{% trans "Frontpage" %} | {{ block.super }}{% endblock %}
 
@@ -13,6 +15,12 @@
 {% block content %}
 <h1>Stilgar's profile</h1>
 <div class="profile">
+    {% if user.is_staff %}
+    <div class="edit-link">
+        <a href="{% admin_change_link profile %}">Edit</a>
+        <a href="{% url 'admin:index' %}">(admin)</a>
+    </div>
+    {% endif %}
     <div class="about">
         <div><h5>{% trans "Name" %}</h5> {{ profile.first_name }}</div>
         <div><h5>{% trans "Last name" %}</h5> {{ profile.last_name }}</div>
