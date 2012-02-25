@@ -6,8 +6,8 @@
 {% block title %}{% trans "Frontpage" %} | {{ block.super }}{% endblock %}
 
 {% block head %}
-{{ block.super }}
-<link type="text/css" rel="stylesheet" media="all" href="{% get_static_prefix %}user_profile.css" />
+    {{ block.super }}
+    <link type="text/css" rel="stylesheet" media="all" href="{% get_static_prefix %}user_profile/user_profile.css" />
 {% endblock %}
 
 {% block content %}

@@ -2,6 +2,8 @@
 from django import forms
 from forty_two_test_stilgar.apps.user_profile.models import Profile
 from forty_two_test_stilgar.apps.datepicker.widgets import DatePicker
+from forty_two_test_stilgar.apps.progress_file_input.widgets import \
+        ProgressFileInput
 
 
 class ProfileEditForm(forms.ModelForm):
@@ -11,7 +13,15 @@ class ProfileEditForm(forms.ModelForm):
         model = Profile
         widgets = {
             'date_of_birth': DatePicker(),
+            'image': ProgressFileInput(attrs={'autocomplete': 'off'}),
         }
+
+    # pylint: disable=W0232,R0903,C0111
+    class Media:
+        js = (
+            'user_profile/jquery.form.js',
+            'user_profile/edit-ajax.js',
+        )
 
     def save(self, commit=True, stored_image=None):
         """Override for saving stored image."""

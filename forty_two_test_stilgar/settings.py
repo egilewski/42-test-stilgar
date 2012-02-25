@@ -72,6 +72,13 @@ LOGIN_REDIRECT_URL = '/'
 
 UPLOAD_PATH = 'tmp'
 
+FILE_UPLOAD_HANDLERS = (
+    'forty_two_test_stilgar.apps.progress_file_input.upload_handlers.' \
+            'UploadProgressCachedHandler',
+    'django.core.files.uploadhandler.MemoryFileUploadHandler',
+    'django.core.files.uploadhandler.TemporaryFileUploadHandler',
+)
+
 # Additional locations of static files
 STATICFILES_DIRS = (
     os.path.join(PROJECT_PATH, 'css'),
@@ -137,6 +144,7 @@ INSTALLED_APPS = (
     'forty_two_test_stilgar.apps.request_logger',
     'forty_two_test_stilgar.apps.template_library',
     'forty_two_test_stilgar.apps.datepicker',
+    'forty_two_test_stilgar.apps.progress_file_input',
 )
 
 FIXTURE_DIRS = (

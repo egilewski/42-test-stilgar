@@ -54,7 +54,7 @@
 .profile-edit {
 }
 
-    .profile-edit .error-note,
+    .profile-edit #error-note,
     .profile-edit .field-error {
         color: red;
     }
@@ -71,7 +71,7 @@
             margin-bottom: 20px;
         }
 
-        .profile-edit form#profile-edit-form .field-column-2 {
+        .profile-edit form#profile-edit-form #field-column-2 {
             margin-left: 20px;
         }
 
@@ -99,14 +99,14 @@
                 height: 200px;
             }
 
-        .profile-edit form#profile-edit-form .field-image-wrapper {
+        .profile-edit form#profile-edit-form #field-image-wrapper {
         }
 
-            .profile-edit form#profile-edit-form .field-image-wrapper label[for="id_image"] {
+            .profile-edit form#profile-edit-form #field-image-wrapper label[for="id_image"] {
                 float: left;
             }
 
-            .profile-edit form#profile-edit-form .field-image-wrapper .field {
+            .profile-edit form#profile-edit-form #field-image-wrapper .field {
                 float: right;
                 width: 343px;
                 padding: 5px;
@@ -117,11 +117,11 @@
             clear: both;
         }
 
-            .profile-edit form#profile-edit-form .submit-block .unsaved-changes {
+            .profile-edit form#profile-edit-form .submit-block #unsaved-changes {
                 color: red;
             }
 
-    .profile-edit .profile-image-preview {
+    .profile-edit #image-preview {
         float: left;
         width: 620px;
         margin-bottom: 50px;
@@ -131,18 +131,18 @@
         border: 3px solid #AAAAAA;
     }
 
-        .profile-edit .profile-image-preview h5 {
+        .profile-edit #image-preview h5 {
             margin: 0 0 10px 0;
             padding: 10px 30px;
             font-size: 200%;
             border-bottom: 3px solid #AAAAAA;
         }
 
-        .profile-edit .profile-image-preview .image-wrapper {
+        .profile-edit #image-preview .image-wrapper {
             padding: 0 10px;
         }
 
-            .profile-edit .profile-image-preview img {
+            .profile-edit #image-preview img {
                 max-width: 100%;
             }
 /* End of Edit profile page. */
