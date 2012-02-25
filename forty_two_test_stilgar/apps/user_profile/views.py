@@ -29,8 +29,12 @@ def user_profile(request):
 def edit_user_profile(request):
     """User profile edit page."""
     #TODO: make this view short.
-    extra_context = {}
     profile = Profile.objects.all()[0]
+    reverse_field_order = ('reverse_field_order' in request.GET) and \
+            request.GET['reverse_field_order'] == '1'
+    default_extra_context = {'reverse_field_order': reverse_field_order}
+    extra_context = default_extra_context
+
     if request.method == 'POST':
         # Handle temporary storing image.
         stored_image = None
@@ -67,14 +71,16 @@ def edit_user_profile(request):
 
         # Handle action: preview or save.
         if 'preview' in request.POST:
-            form = ProfileEditForm(request.POST, instance=profile)
+            form = ProfileEditForm(request.POST, instance=profile,
+                                   reverse_field_order=reverse_field_order)
             if ('image-clear' in request.POST) and \
                     request.POST['image-clear'] == 'on':
                 extra_context['persistent_image_clear'] = \
                         request.POST['image-clear']
         elif 'save' in request.POST:
             form = ProfileEditForm(request.POST, request.FILES,
-                                   instance=profile)
+                                   instance=profile,
+                                   reverse_field_order=reverse_field_order)
             if form.is_valid():
                 if stored_image:
                     image_dir = profile.image.field.upload_to
@@ -84,11 +90,13 @@ def edit_user_profile(request):
                 # FIXME: rain dance.
                 # Recreating form to update "Current value" of ImageField.
                 profile = Profile.objects.get(id=profile.id)
-                form = ProfileEditForm(request.POST, instance=profile)
+                form = ProfileEditForm(request.POST, instance=profile,
+                                       reverse_field_order=reverse_field_order)
                 drop_stored_image(request)
-                extra_context = {}
+                extra_context = default_extra_context
     else:
-        form = ProfileEditForm(instance=profile)
+        form = ProfileEditForm(instance=profile,
+                               reverse_field_order=reverse_field_order)
 
     if form.is_bound and not form.is_valid():
         # Show errors.
