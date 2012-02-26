@@ -6,7 +6,7 @@ from django.views.generic import list_detail
 from forty_two_test_stilgar.apps.request_logger.models import Request
 
 REQUEST_LOG_LIST_INFO = {
-    'queryset': Request.objects.order_by('-id'),
+    'queryset': Request.objects.order_by('-priority', '-id'),
     'template_object_name': 'request_record',
     'template_name': 'request_logger_list.html',
     'paginate_by': 20,

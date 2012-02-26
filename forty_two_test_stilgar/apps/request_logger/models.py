@@ -24,3 +24,4 @@ class Request(ExtendedModel):
     """Value of HttpRequest.META['REMOTE_ADDR']."""
     request = models.TextField()
     """String representation of HttpRequest object."""
+    priority = models.IntegerField(default=1)

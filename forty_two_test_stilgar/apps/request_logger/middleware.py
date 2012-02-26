@@ -30,6 +30,8 @@ class RequestLoggerMiddleware(object):
             log_data['referer'] = request.META['HTTP_REFERER']
         except KeyError:
             log_data['referer'] = None
+        # Demonstrational priority assignment.
+        log_data['priority'] = self.get_request_priority(request)
         request_log = Request(**log_data)
         request_log.save()
 
@@ -37,3 +39,9 @@ class RequestLoggerMiddleware(object):
         request.log = log_data
         if request.path_info.startswith('request-log/testing'):
             request.log = log_data
+
+    def get_request_priority(self, request):
+        priority = 1
+        if request.method == 'POST':
+            priority += 10
+        return priority
