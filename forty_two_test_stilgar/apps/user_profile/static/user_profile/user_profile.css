@@ -48,6 +48,15 @@
             .profile .photo img {
                 max-width: 100%;
             }
+
+    .profile .edit-block {
+        float: none;
+        margin: 20px;
+    }
+
+        .profile .edit-block-container {
+            float: right;
+        }
 /* End of Profile page. */
 
 /* Edit profile page. */
