@@ -15,11 +15,15 @@
 {% block content %}
 <h1>Stilgar's profile</h1>
 <div class="profile">
-    {% if user.is_staff %}
-    <div class="edit-link">
-        <a href="{% admin_change_link profile %}">Edit</a>
-        <a href="{% url 'admin:index' %}">(admin)</a>
-    </div>
+    {% if user.is_staff or user.is_anonymous %}
+        <div class="edit-block"><div class="edit-block-container">
+            {% if user.is_staff %}
+                <a href="{% url 'forty_two_test_stilgar.apps.user_profile.views.edit_user_profile' %}">Edit</a>
+                <a href="{% admin_change_link profile %}">(admin)</a>
+            {% else %}
+                <a href="{% url "login" %}">Log in</a>
+            {% endif %}
+        </div></div>
     {% endif %}
     <div class="about">
         <div><h5>{% trans "Name" %}</h5> {{ profile.first_name }}</div>
