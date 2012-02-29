@@ -1,4 +1,5 @@
 """Webpage tests for user profile app."""
+import re
 import datetime
 import os.path
 from django.utils.formats import date_format
@@ -45,9 +46,9 @@ class TestUserProfileProfilePage(HttpParsingTestCase):
                     value = datetime.datetime.strptime(value, '%Y-%m-%d') \
                             .date()
                 else:
-                    #FIXME: real errors regarding whitespace will be missed.
-                    value = value.rstrip()
-                    profile_value = profile_value.rstrip()
+                    value = re.sub('(\r\n|\r|\n)+', '\n', value)
+                    profile_value = re.sub('(\r\n|\r|\n)+', '\n',
+                            profile_value)
                 self.assert_equal(value, profile_value)
         # Check correspondence of DB and page after editing.
         self.test_profile_page()
@@ -98,11 +99,11 @@ class TestUserProfileProfilePage(HttpParsingTestCase):
             'first_name': 'Test First Name',
             'last_name': 'Test Last Name',
             'date_of_birth': '2012-01-01',
-            'bio': 'Test bio',
+            'bio': 'Test bio\r\n',
             'email': 'test@example.com',
             'jabber': 'test2@example.com',
             'skype': 'testskype',
-            'contacts': 'Test contacts',
+            'contacts': 'Test \n contacts',
             'image': os.path.abspath(os.path.dirname(__file__)) + \
                     '/testimage.jpg'
         }

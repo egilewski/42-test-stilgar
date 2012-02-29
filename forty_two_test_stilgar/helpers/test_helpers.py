@@ -35,8 +35,9 @@ class HttpParsingTestCase(HttpTestCase):
         if not isinstance(what, basestring):
             what = unicode(what)
 
+        what = re.sub('\r\n|\r', '\n', what)
         if collapse_whitespace:
-            what = re.sub('\n+', '\n', what)
+            what = re.sub('(\r\n|\r|\n)+', '\n', what)
             what = re.sub(' +', ' ', what)
 
         if escape:
@@ -46,6 +47,7 @@ class HttpParsingTestCase(HttpTestCase):
             what = what.decode('UTF-8')
 
         html = self.get_browser().get_html().decode('UTF-8')
+        html = re.sub('(\r\n|\r|\n)+', '\n', html)
         if plain_text:
             soup = BeautifulSoup(html,
                                  convertEntities=BeautifulSoup.XHTML_ENTITIES)
