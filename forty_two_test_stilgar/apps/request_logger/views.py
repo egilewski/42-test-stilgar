@@ -8,7 +8,7 @@ from forty_two_test_stilgar.apps.request_logger.models import Request
 
 def request_list(request):
     """Show request list."""
-    requests = Request.objects.order_by('-id')[:10]
+    requests = Request.objects.order_by('id')[:10]
     requests = sorted(requests, key=lambda x: x.priority, reverse=True)
     return direct_to_template(request, template='request_logger_list.html',
                               extra_context={'request_record_list': requests})
