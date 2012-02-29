@@ -21,17 +21,17 @@ class UploadProgressCachedHandler(FileUploadHandler):
     def handle_raw_input(self, input_data, META, content_length, boundary,
                          encoding=None):
         self.content_length = content_length
-        if 'X-Progress-ID' in self.request.GET :
+        if 'X-Progress-ID' in self.request.GET:
             self.progress_id = self.request.GET['X-Progress-ID']
         elif 'X-Progress-ID' in self.request.META:
             self.progress_id = self.request.META['X-Progress-ID']
         if self.progress_id:
             self.cache_key = "%s_%s" % (self.request.META['REMOTE_ADDR'],
-                                        self.progress_id )
+                                        self.progress_id)
             cache.set(self.cache_key, {
                 'state': 'uploading',
                 'size': self.content_length,
-                'received' : 0,
+                'received': 0,
             })
 
     def new_file(self, field_name, file_name, content_type, content_length,

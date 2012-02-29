@@ -6,6 +6,7 @@ from django.http import HttpResponse, HttpResponseServerError
 from django.core.cache import cache
 from django.utils import simplejson
 
+
 def upload_progress(request):
     """
     Return JSON object with information about the progress of an upload.

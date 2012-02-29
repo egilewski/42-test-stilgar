@@ -24,6 +24,7 @@ def user_profile(request):
                              template='user_profile_profile.html',
                              extra_context={'profile': profile})
 
+
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
 def edit_user_profile(request):

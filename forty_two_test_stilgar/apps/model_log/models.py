@@ -27,6 +27,7 @@ def model_log_save_listener(sender, instance, created, **kwargs):
                    object_id=object_id, object_pk=object_pk)
     log.save()
 
+
 @receiver(post_delete)
 def model_log_delete_listener(sender, instance, **kwargs):
     if sender == ModelLog:

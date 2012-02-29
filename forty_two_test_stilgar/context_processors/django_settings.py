@@ -2,6 +2,7 @@
 from copy import copy
 from forty_two_test_stilgar import settings
 
+
 def django_settings(request):
     """Context processor for adding "django_settings" to the context."""
     django_settings = copy(settings.__dict__)

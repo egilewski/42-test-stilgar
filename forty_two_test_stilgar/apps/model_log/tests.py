@@ -37,6 +37,7 @@ class TestModelLogger(DatabaseTestCase):
             log_fields['action'] = 'delete'
             self.assert_read(ModelLog, **log_fields)
 
+
 def generate_default_values_for_fields(model):
     fields = {}
     for field in model._meta.fields:
