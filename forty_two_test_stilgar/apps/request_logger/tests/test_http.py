@@ -15,16 +15,16 @@ class TestUserProfileProfilePage(HttpParsingTestCase):
     def test_request_list_page(self):
         """
         Assert data from all fields (execpt for "request" and
-        "priority") in each of last 10 model's object to be presented
+        "priority") in each of first 10 model's object to be presented
         on list view page.
         Assert other records not to be presented.
         """
         # Create enough request log entries.
         for i in xrange(20):
             self.go200('/request-log')
-        self.check_presence(Request.objects.order_by('-id')[:10])
+        self.check_presence(Request.objects.order_by('id')[:10])
         self.assert_raises(TwillAssertionError,
-                self.check_presence, Request.objects.order_by('-id')[10:20])
+                self.check_presence, Request.objects.order_by('id')[10:20])
 
     def test_request_page(self):
         """Assert data from all fields (except "priority") in given
