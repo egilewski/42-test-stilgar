@@ -1,5 +1,6 @@
 """Math template tag. http://djangosnippets.org/snippets/2424/"""
-from django.template import Node, Library, Variable, FilterExpression, TemplateSyntaxError
+from django.template import Node, Library, Variable, FilterExpression, \
+        TemplateSyntaxError
 import math
 import re
 
@@ -7,7 +8,10 @@ register = Library()
 
 # taken from http://lybniz2.sourceforge.net/safeeval.html
 # make a list of safe functions
-math_safe_list = ['acos', 'asin', 'atan', 'atan2', 'ceil', 'cos', 'cosh', 'degrees', 'e', 'exp', 'fabs', 'floor', 'fmod', 'frexp', 'hypot', 'ldexp', 'log', 'log10', 'modf', 'pi', 'pow', 'radians', 'sin', 'sinh', 'sqrt', 'tan', 'tanh']
+math_safe_list = ['acos', 'asin', 'atan', 'atan2', 'ceil', 'cos', 'cosh',
+                  'degrees', 'e', 'exp', 'fabs', 'floor', 'fmod', 'frexp',
+                  'hypot', 'ldexp', 'log', 'log10', 'modf', 'pi', 'pow',
+                  'radians', 'sin', 'sinh', 'sqrt', 'tan', 'tanh']
 
 # use the list to filter the local namespace
 math_safe_dict = dict([(k, getattr(math, k)) for k in math_safe_list])
@@ -41,10 +45,13 @@ def do_math(parser, token):
     Syntax:
         {% math <argument, ..> "expression" as var_name %}
 
-    Evaluates a math expression in the current context and saves the value into a variable with the given name.
+    Evaluates a math expression in the current context and saves the
+    value into a variable with the given name.
 
-    "$<number>" is a placeholder in the math expression. It will be replaced by the value of the argument at index <number> - 1. 
-    Arguments are static values or variables immediately after 'math' tag and before the expression (the third last token).
+    "$<number>" is a placeholder in the math expression. It will be
+    replaced by the value of the argument at index <number> - 1.
+    Arguments are static values or variables immediately after 'math'
+    tag and before the expression (the third last token).
 
     Example usage,
         {% math a b "min($1, $2)" as result %}

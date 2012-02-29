@@ -1,8 +1,9 @@
-from django.core.urlresolvers import reverse, NoReverseMatch
+from django.core.urlresolvers import reverse
 from django import template
 from django.contrib.contenttypes.models import ContentType
 
 register = template.Library()
+
 
 @register.simple_tag
 def admin_change_link(token):

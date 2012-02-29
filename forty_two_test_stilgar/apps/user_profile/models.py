@@ -2,6 +2,7 @@
 from django.db import models
 from forty_two_test_stilgar.helpers.model_helpers import ExtendedModel
 
+
 class Profile(ExtendedModel):
     """User profile model."""
     first_name = models.CharField(max_length=64)

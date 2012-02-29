@@ -8,6 +8,7 @@ from forty_two_test_stilgar import settings
 from forty_two_test_stilgar.apps.progress_file_input.views import \
         upload_progress
 
+
 class ProgressFileInput(forms.ClearableFileInput):
     """Widget for showing file upload progress."""
     render_template = u'''
@@ -30,12 +31,12 @@ class ProgressFileInput(forms.ClearableFileInput):
             </div>
             '''
 
-
     # pylint: disable=W0232,R0903,C0111
     class Media:
         jquery_url = 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/' \
                 'jquery.min.js'
-        jquery_upload_progress_url = 'progress_file_input/jquery.uploadProgress.js'
+        jquery_upload_progress_url = \
+                'progress_file_input/jquery.uploadProgress.js'
 
         js = (
             jquery_url,
@@ -69,8 +70,6 @@ class ProgressFileInput(forms.ClearableFileInput):
             substitutions['hide_current'] = u'style="display: none;"'
             substitutions['initial'] = u'<a href=""></a>'
 
-        template = self.render_template
-
         if not self.is_required:
             checkbox_name = self.clear_checkbox_name(name)
             checkbox_id = self.clear_checkbox_id(checkbox_name)
@@ -83,12 +82,5 @@ class ProgressFileInput(forms.ClearableFileInput):
                                            attrs={'id': checkbox_id})
             substitutions['clear_template'] = \
                     self.template_with_clear % substitutions
-
-        return mark_safe(template % substitutions)
-
-
-
-        substitutions = {
-        }
 
         return mark_safe(self.render_template % substitutions)

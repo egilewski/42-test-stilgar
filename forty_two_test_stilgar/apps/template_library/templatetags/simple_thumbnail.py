@@ -6,6 +6,7 @@ from forty_two_test_stilgar import settings
 
 register = Library()
 
+
 # http://djangosnippets.org/snippets/955/ modified for image path.
 def thumbnail(filename, size='104x104'):
     """Generate on demand and save thumbnail for image path relative to

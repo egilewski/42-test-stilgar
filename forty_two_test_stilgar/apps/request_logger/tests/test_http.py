@@ -61,4 +61,3 @@ class TestUserProfileProfilePage(HttpParsingTestCase):
             request = Request.objects.get(pk=i)
             self.assert_true(request.priority <= last_priority)
             last_priority = request.priority
-
