@@ -1,6 +1,7 @@
 """Webpage tests for the request logger app."""
 import datetime
 from django.utils.formats import date_format
+from twill.errors import TwillAssertionError
 from BeautifulSoup import BeautifulSoup
 from forty_two_test_stilgar.apps.request_logger.models import Request
 from forty_two_test_stilgar.helpers.test_helpers import HttpParsingTestCase
@@ -8,23 +9,22 @@ from forty_two_test_stilgar.helpers.test_helpers import HttpParsingTestCase
 
 # pylint: disable=R0904
 class TestUserProfileProfilePage(HttpParsingTestCase):
-    """Test logged requests list and details pages."""
+    """Test logged uests list and details pages."""
     xhtml = True
 
     def test_request_list_page(self):
-        """Assert data from all fields (execpt for "request" and
+        """
+        Assert data from all fields (execpt for "request" and
         "priority") in each of last 10 model's object to be presented
-        on list view page."""
-        self.go200('/request-log')
-        for request in Request.objects.order_by('-id')[0:10]:
-            fields = request.get_fields(exclude=('url', 'request', 'priority'))
-            for value in fields.itervalues():
-                if isinstance(value, datetime.datetime):
-                    value = date_format(value)
-                if value is None:
-                    value = ''
-                self.find(value, flat=True, plain_text=True)
-            self.get_browser().find_link(request.url)
+        on list view page.
+        Assert other records not to be presented.
+        """
+        # Create enough request log entries.
+        for i in xrange(20):
+            self.go200('/request-log')
+        self.check_presence(Request.objects.order_by('-id')[:10])
+        self.assert_raises(TwillAssertionError,
+                self.check_presence, Request.objects.order_by('-id')[10:20])
 
     def test_request_page(self):
         """Assert data from all fields (except "priority") in given
@@ -61,3 +61,17 @@ class TestUserProfileProfilePage(HttpParsingTestCase):
             request = Request.objects.get(pk=i)
             self.assert_true(request.priority <= last_priority)
             last_priority = request.priority
+
+    def check_presence(self, request_list):
+        for request in request_list:
+            fields = request.get_fields(
+                    exclude=('url', 'request', 'priority'))
+            print fields
+            for value in fields.itervalues():
+                if isinstance(value, datetime.datetime):
+                    value = date_format(value)
+                if value is None:
+                    value = ''
+                self.find(value, flat=True, plain_text=True)
+            self.assert_not_equal(self.get_browser().find_link(request.url),
+                                  None)
