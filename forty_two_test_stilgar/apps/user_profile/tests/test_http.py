@@ -44,6 +44,10 @@ class TestUserProfileProfilePage(HttpParsingTestCase):
                 if isinstance(profile_value, datetime.date):
                     value = datetime.datetime.strptime(value, '%Y-%m-%d') \
                             .date()
+                else:
+                    #FIXME: real errors regarding whitespace will be missed.
+                    value = value.rstrip()
+                    profile_value = profile_value.rstrip()
                 self.assert_equal(value, profile_value)
         # Check correspondence of DB and page after editing.
         self.test_profile_page()
