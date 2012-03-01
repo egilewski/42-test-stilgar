@@ -46,9 +46,10 @@ class TestUserProfileProfilePage(HttpParsingTestCase):
                     value = datetime.datetime.strptime(value, '%Y-%m-%d') \
                             .date()
                 else:
-                    value = re.sub('(\r\n|\r|\n)+', '\n', value)
-                    profile_value = re.sub('(\r\n|\r|\n)+', '\n',
-                            profile_value)
+                    #FIXME: real errors regarding whitespace will be missed.
+                    value = re.sub('((\r\n)|\r|\n)+', '\n', value.strip())
+                    profile_value = re.sub('((\r\n)|\r|\n)+', '\n',
+                            profile_value.strip())
                 self.assert_equal(value, profile_value)
         # Check correspondence of DB and page after editing.
         self.test_profile_page()

@@ -35,9 +35,10 @@ class HttpParsingTestCase(HttpTestCase):
         if not isinstance(what, basestring):
             what = unicode(what)
 
-        what = re.sub('\r\n|\r', '\n', what)
+        #FIXME: real errors regarding whitespace will be missed.
+        what = re.sub('(\r\n)|\r', '\n', what.strip())
         if collapse_whitespace:
-            what = re.sub('(\r\n|\r|\n)+', '\n', what)
+            what = re.sub('\n+', '\n', what)
             what = re.sub(' +', ' ', what)
 
         if escape:
@@ -47,7 +48,7 @@ class HttpParsingTestCase(HttpTestCase):
             what = what.decode('UTF-8')
 
         html = self.get_browser().get_html().decode('UTF-8')
-        html = re.sub('(\r\n|\r|\n)+', '\n', html)
+        html = re.sub('((\r\n)|\r|\n)+', '\n', html)
         if plain_text:
             soup = BeautifulSoup(html,
                                  convertEntities=BeautifulSoup.XHTML_ENTITIES)
